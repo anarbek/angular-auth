@@ -36,11 +36,18 @@ export class MockBackendInterceptor implements HttpInterceptor {
             .pipe(delay(1000))
 
         function handleRoute() {
+            console.log('currUrl:', url);
             if (url.endsWith('/authenticate') && method === 'POST')
                 return authenticate();
             else if (url.endsWith('/users') && method === 'GET') {
+                console.log('users');
                 return getUsers();
-            } else {
+            }
+            else if (url.endsWith('/testapp') && method === 'GET') {
+                console.log('handle test');
+                return getTest();
+            }
+            else {
                 // pass through any requests not handled above
                 return next.handle(request);
             }
@@ -70,6 +77,17 @@ export class MockBackendInterceptor implements HttpInterceptor {
                 return unauthorized();
             }
             if (!isAuthorized('CAN_LIST_USERS')) {
+                return forbidden();
+            }
+            return ok(users);
+        }
+
+        function getTest() {
+            if (!isLoggedIn()) {
+                return unauthorized();
+            }
+            console.log('here!');
+            if (!isAuthorized('CAN_TEST')) {
                 return forbidden();
             }
             return ok(users);

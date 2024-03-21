@@ -5,11 +5,13 @@ import { LoginComponent } from './login';
 import { AuthGuard } from './auth';
 import {HomeComponent} from "./home/home.component";
 import {ForbiddenComponent} from "./forbidden/forbidden.component";
+import { TestAppComponent } from './test/test-app.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'users', component: UserListComponent },
+    { path: 'testapp', component: TestAppComponent },
     { path: 'forbidden', component: ForbiddenComponent },
 
     // otherwise redirect to user-list

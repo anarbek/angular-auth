@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // used to create fake backend
-import { mockBackendProvider } from './auth';
+import { MockBackendInterceptor, mockBackendProvider } from './auth';
 
 import { AppComponent } from './app.component';
 import { appRoutingModule } from './app.routing';
@@ -14,6 +14,8 @@ import { UserListComponent } from './user-list';
 import { LoginComponent } from './login';
 import { HomeComponent } from './home/home.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { LoggerInterceptor } from './auth/logger.interceptor';
+import { TestAppComponent } from './test/test-app.component';
 
 @NgModule({
     imports: [
@@ -25,6 +27,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
     declarations: [
         AppComponent,
         UserListComponent,
+        TestAppComponent,
         LoginComponent,
         HomeComponent,
         ForbiddenComponent
@@ -32,6 +35,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: LoggerInterceptor, multi: true },        
 
         // provider used to create mock backend
         mockBackendProvider

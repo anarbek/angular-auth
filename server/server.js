@@ -93,6 +93,16 @@ app.get('/users', async (req, res, next) => {
         .catch(err => next(err));
 });
 
+app.get('/testapp', async (req, res, next) => {
+    console.log(req.auth)
+    if (!req.auth.authorities.find(a => a==='CAN_TEST')) {
+        return res.sendStatus(403)
+    }
+    getAll()
+        .then(users => res.json(users))
+        .catch(err => next(err));
+});
+
 // start server
 const port = process.env.NODE_ENV === 'production' ? 80 : 4000;
 app.listen(port, function () {
